@@ -20,28 +20,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
-          
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install gunicorn
-          
       - name: Setup Pages
         uses: actions/configure-pages@v4
         
-      - name: Build static files
-        run: |
-          mkdir _site
-          cp -r templates _site/
-          cp -r static _site/ || true
-          
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
         
       - name: Deploy to GitHub Pages
         id: deployment

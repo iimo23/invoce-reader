@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arabic Invoice Data Extraction</title>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Arabic Invoice Data Extraction</h1>
+        
+        <div class="upload-section">
+            <form id="upload-form">
+                <div class="file-input">
+                    <input type="file" id="file-input" accept=".png,.jpg,.jpeg,.pdf" required>
+                </div>
+                <button type="submit">Process Invoice</button>
+            </form>
+        </div>
+
+        <div id="loading">
+            Processing... Please wait...
+        </div>
+
+        <div id="result"></div>
+    </div>
+
+    <script src="static/js/main.js"></script>
+</body>
+</html>
