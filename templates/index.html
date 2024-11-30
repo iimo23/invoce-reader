@@ -3,27 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice Data Extractor</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Arabic Invoice Data Extraction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body class="bg-gray-100 min-h-screen">
+<body>
     <div class="container mx-auto px-4 py-8">
         <div class="max-w-2xl mx-auto">
-            <h1 class="text-3xl font-bold text-center mb-8 text-gray-800">Invoice Data Extractor</h1>
+            <h1 class="text-3xl font-bold text-center mb-8 text-gray-800">Arabic Invoice Data Extraction</h1>
             
             <div class="bg-white rounded-lg shadow-md p-6">
                 <div class="mb-6">
                     <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center" id="drop-zone">
-                        <input type="file" id="file-input" class="hidden" accept=".jpg,.jpeg,.png,.pdf">
-                        <label for="file-input" class="cursor-pointer">
-                            <div class="text-gray-600">
-                                <svg class="mx-auto h-12 w-12 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
-                                </svg>
-                                <p class="mb-2">Drag and drop your invoice here</p>
-                                <p class="text-sm text-gray-500">or click to select file</p>
-                            </div>
-                        </label>
+                        <form id="upload-form">
+                            <input type="file" id="file-input" class="hidden" accept=".jpg,.jpeg,.png,.pdf" required>
+                            <label for="file-input" class="cursor-pointer">
+                                <div class="text-gray-600">
+                                    <svg class="mx-auto h-12 w-12 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                                    </svg>
+                                    <p class="mb-2">Drag and drop your invoice here</p>
+                                    <p class="text-sm text-gray-500">or click to select file</p>
+                                </div>
+                            </label>
+                        </form>
                     </div>
                 </div>
 
@@ -34,6 +36,10 @@
                 <button id="upload-btn" class="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-200 disabled:bg-gray-400" disabled>
                     Process Invoice
                 </button>
+
+                <div id="loading" class="hidden">
+                    Processing... Please wait...
+                </div>
             </div>
 
             <div id="result" class="mt-8 bg-white rounded-lg shadow-md p-6 hidden">
@@ -47,6 +53,7 @@
         </div>
     </div>
 
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     <script>
         const dropZone = document.getElementById('drop-zone');
         const fileInput = document.getElementById('file-input');
@@ -57,6 +64,7 @@
         const jsonResult = document.getElementById('json-result');
         const error = document.getElementById('error');
         const errorMessage = document.getElementById('error-message');
+        const loading = document.getElementById('loading');
 
         // Prevent default drag behaviors
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
@@ -119,6 +127,7 @@
             uploadBtn.textContent = 'Processing...';
             error.classList.add('hidden');
             result.classList.add('hidden');
+            loading.classList.remove('hidden');
 
             try {
                 const response = await fetch('/upload', {
@@ -140,6 +149,7 @@
             } finally {
                 uploadBtn.disabled = false;
                 uploadBtn.textContent = 'Process Invoice';
+                loading.classList.add('hidden');
             }
         });
     </script>
